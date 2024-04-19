@@ -125,16 +125,16 @@ pow11(2, -2)
 
 
 func pow3( _ a : Decimal, _ b : Int) -> Decimal {
-    //if b == 0 {return 1}
-    //if b == 1 {return a}
+    if b == 0 {return 1}
+    
     
     if b % 2 == 1 {
-        return a * pow3(a,b >> 1)
+        return a * pow3(a,b - 1)
     } else {
-        return  pow3(a,b >> 1)
+        return  pow3(a * a,b >> 1)
     }
 }
-pow3(2, 2)
+pow3(2, 5)
 
 
 /*
