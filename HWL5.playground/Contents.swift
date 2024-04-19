@@ -4,21 +4,25 @@ import Cocoa
  1 написать алгоритм наимменьшего общего кратного
  */
 
-func lcm1(a : Int, b : Int, m : Int = 0) -> Int {
-    if a <= 0 || b <= 0 {
-        return 0
-    }
-    var multiple = m + max(abs(a), abs(b))
-    if multiple % a == 0 && multiple % b == 0 {
-        return multiple
+func lcm2_(a : Int, b : Int, c : Int = 0) -> Int {
+    if b % a == 0 {
+        return b
     } else {
-        return lcm1(a: a, b: b, m: multiple)
+        return lcm2_(a: a, b: b + c, c: c)
     }
 }
-lcm1(a: 256, b: 12)
-lcm1(a: 50, b: 5)
-lcm1(a: -50, b: 5)
-lcm1(a: 0, b: 5)
+func lcm2(a : Int, b : Int) -> Int {
+    var newA = a
+    var newB = b
+    if newA == 0 || newB == 0 { return 0 }
+    if newA < 0 { newA = -newA }
+    if newB < 0 { newB = -newB }
+    return lcm2_(a: min(newA, newB), b: max(newA, newB), c: max(newA, newB))
+}
+//lcm2(a: 12, b: 256)
+//lcm2(a: 7, b: 2)
+//lcm2(a: -50, b: 5)
+//lcm2(a: 0, b: 5)
 
 /*
  2 написать функцию возведения в степень  (функционально и процедурно)
@@ -53,15 +57,34 @@ pow1(2, 0)
 pow1(0, 1)
 pow1(-2, 2)
 
-func pow2( _ a : Decimal, _ b : Int) -> Decimal {
+func pow2_( _ a : Decimal, _ b : Int) -> Decimal {
     if b != 0 {
-        return a * pow2(a, b - 1)
+        return a * pow2_(a, b - 1)
     } else {
         return 1
     }
 }
 
-pow2(2, 5)
+func pow2( _ a : Decimal, _ b : Int) -> Decimal {
+    if b == 0 { return 1 }
+    if b == 1 { return a }
+    if b < 0 {
+        return 1 / pow2_(a, -b)
+    } else {
+        return pow2_(a, b)
+    }
+}
+
+
+pow2(2, -2)
+pow2(2, 2)
+pow2(2, 1)
+pow2(2, 0)
+pow2(0, 1)
+pow2(-2, 2)
+
+
+
 
 /*
  3 быстрое возведение в степень (процедурно и функционально)
@@ -100,20 +123,24 @@ pow11(2, 1)
 pow11(2, 0)
 pow11(2, -2)
 
-//уточнить как реализовать отрицательную степень
-func pow22( _ a : Decimal, _ b : Int) -> Decimal {
-    if b == 0 { return 1}
-    if b == 1 {
-        return a
+
+func pow3( _ a : Decimal, _ b : Int) -> Decimal {
+    //if b == 0 {return 1}
+    //if b == 1 {return a}
+    
+    if b % 2 == 1 {
+        return a * pow3(a,b >> 1)
     } else {
-        return a * pow22(a, b - 1)
+        return  pow3(a,b >> 1)
     }
 }
-pow22(2, 2)
-pow22(2, 1)
-pow22(2, 0)
+pow3(2, 2)
+
 
 /*
  4 тест люка лемера резеля - получить простые числа
  */
+
+
+
 
